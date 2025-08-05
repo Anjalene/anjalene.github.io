@@ -1,0 +1,352 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.desktop-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-image: url('../images/mainbg.png');
+    background-size: cover;
+    background-position: left top;
+    background-repeat: no-repeat;
+}
+
+.desktop-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(232, 197, 232, 0.08) 0%,
+        rgba(212, 165, 212, 0.04) 25%,
+        rgba(192, 133, 192, 0.04) 50%,
+        rgba(182, 117, 182, 0.04) 75%,
+        rgba(168, 101, 168, 0.08) 100%
+    );
+    pointer-events: none;
+}
+
+.folders-area {
+    position: absolute;
+    left: 70%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    z-index: 10;
+}
+
+.folder {
+    display: block;
+    text-decoration: none;
+    width: 84px;
+    height: 65px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.folder:hover {
+    transform: scale(1.05);
+}
+
+.folder:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
+
+.folder-icon {
+    width: 84px;
+    height: 65px;
+    position: relative;
+    background: var(--folder-color);
+    border-radius: 6px;
+    box-shadow: 
+        0 0 0 1px rgba(0, 0, 0, 0.1),
+        0 2px 6px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Mac folder tab at the top */
+.folder-icon::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 12px;
+    width: 32px;
+    height: 12px;
+    background: var(--folder-dark);
+    border-radius: 6px 6px 0 0;
+    box-shadow: 
+        0 0 0 1px rgba(0, 0, 0, 0.1),
+        0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Mac folder crease */
+.folder-icon::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 0, 0, 0.1) 20%,
+        rgba(0, 0, 0, 0.1) 80%,
+        transparent
+    );
+}
+
+/* Folder label */
+.folder-label {
+    position: absolute;
+    top: 68px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.1px;
+}
+
+/* Folder gradients */
+.folder-pink {
+    --folder-color: linear-gradient(135deg, #ffb3d9 0%, #ff9ad1 100%);
+    --folder-dark: #ff8ac8;
+}
+
+.folder-orange {
+    --folder-color: linear-gradient(135deg, #ffd4a3 0%, #ffbe7d 100%);
+    --folder-dark: #ffb347;
+}
+
+.folder-yellow {
+    --folder-color: linear-gradient(135deg, #ffffba 0%, #fff685 100%);
+    --folder-dark: #fff066;
+}
+
+.folder-green {
+    --folder-color: linear-gradient(135deg, #baffc9 0%, #98ffa8 100%);
+    --folder-dark: #85ffab;
+}
+
+.folder-blue {
+    --folder-color: linear-gradient(135deg, #bae1ff 0%, #98d1ff 100%);
+    --folder-dark: #85c7ff;
+}
+
+.folder-pink .folder-icon { background: var(--folder-color); }
+.folder-orange .folder-icon { background: var(--folder-color); }
+.folder-yellow .folder-icon { background: var(--folder-color); }
+.folder-green .folder-icon { background: var(--folder-color); }
+.folder-blue .folder-icon { background: var(--folder-color); }
+
+/* Inner folder highlight */
+.folder-icon {
+    background-image: 
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(0, 0, 0, 0.05) 100%
+        );
+    background-blend-mode: overlay;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .folder {
+        transition: none;
+    }
+    
+    .folder:hover {
+        transform: none;
+    }
+}
+
+/* Responsive design - percentage for wide screens, fixed pixels for narrow */
+@media (max-width: 768px) {
+    .folders-area {
+        left: 68%;
+        gap: 28px;
+    }
+    
+    .folder {
+        width: 70px;
+        height: 54px;
+    }
+    
+    .folder-icon {
+        width: 70px;
+        height: 54px;
+        border-radius: 5px;
+    }
+    
+    .folder-icon::before {
+        width: 26px;
+        height: 10px;
+        left: 10px;
+        top: -5px;
+    }
+    
+    .folder-label {
+        font-size: 11px;
+        font-weight: 600;
+        top: 57px;
+    }
+}
+
+/* Switch to fixed positioning for narrow viewports to prevent drift */
+@media (max-width: 600px) {
+    .folders-area {
+        left: 420px;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .folders-area {
+        left: 380px;
+        gap: 22px;
+    }
+    
+    .folder {
+        width: 56px;
+        height: 43px;
+    }
+    
+    .folder-icon {
+        width: 56px;
+        height: 43px;
+        border-radius: 4px;
+    }
+    
+    .folder-icon::before {
+        width: 22px;
+        height: 8px;
+        left: 8px;
+        top: -4px;
+    }
+    
+    .folder-label {
+        font-size: 10px;
+        font-weight: 600;
+        top: 46px;
+    }
+}
+
+/* Handle narrow height viewports - horizontal layout near the hand */
+@media (max-height: 600px) {
+    .folders-area {
+        flex-direction: row;
+        gap: 15px;
+        left: 60%;
+        top: 60%;
+        transform: translateY(-50%);
+        flex-wrap: wrap;
+        max-width: 35%;
+    }
+    
+    .folder-label {
+        top: 68px;
+    }
+}
+
+@media (max-height: 500px) {
+    .folders-area {
+        gap: 12px;
+        top: 65%;
+        left: 55%;
+        max-width: 40%;
+    }
+    
+    .folder {
+        width: 60px;
+        height: 46px;
+    }
+    
+    .folder-icon {
+        width: 60px;
+        height: 46px;
+    }
+    
+    .folder-icon::before {
+        width: 20px;
+        height: 8px;
+        left: 8px;
+        top: -4px;
+    }
+    
+    .folder-label {
+        font-size: 9px;
+        top: 49px;
+    }
+}
+
+@media (max-height: 400px) {
+    .folders-area {
+        gap: 10px;
+        top: 70%;
+        left: 50%;
+        max-width: 45%;
+    }
+    
+    .folder {
+        width: 48px;
+        height: 37px;
+    }
+    
+    .folder-icon {
+        width: 48px;
+        height: 37px;
+    }
+    
+    .folder-icon::before {
+        width: 16px;
+        height: 6px;
+        left: 6px;
+        top: -3px;
+    }
+    
+    .folder-label {
+        font-size: 8px;
+        top: 40px;
+    }
+}
+
+/* Very small screens - adjust folder position more */
+@media (max-width: 320px) {
+    .folders-area {
+        right: 2%;
+    }
+}
+
+/* Tall screens - ensure folders stay positioned relative to hand */
+@media (min-height: 800px) {
+    .folders-area {
+        top: 45%;
+    }
+}
+
+@media (max-height: 500px) {
+    .folders-area {
+        top: 55%;
+    }
+}
